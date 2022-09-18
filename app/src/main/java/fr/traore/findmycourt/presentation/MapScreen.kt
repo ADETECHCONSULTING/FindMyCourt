@@ -12,8 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.google.android.gms.maps.UiSettings
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
 
 @Composable
 fun MapScreen(
@@ -39,8 +42,26 @@ fun MapScreen(
             properties = viewModel.state.properties,
             uiSettings = uiSettings, //disable zoom control at the bottom right because floating button
             onMapLongClick = {
-
+                viewModel.onEvent(MapEvent.OnMapLongClick(it))
             }
-        )
+        ) {
+            viewModel.state.courtSpots.forEach { spot -> 
+                Marker(
+                    position = LatLng(spot.lat, spot.lng),
+                    title = "Court Spot (${spot.lat}, ${spot.lng})",
+                    snippet = "Long click to delete",
+                    onInfoWindowLongClick = {
+                        viewModel.onEvent(MapEvent.OnInfoWindowLongClick(spot))
+                    },
+                    onClick = {
+                        it.showInfoWindow()
+                        true
+                    },
+                    icon = BitmapDescriptorFactory.defaultMarker(
+                        BitmapDescriptorFactory.HUE_ORANGE
+                    )
+                )
+            }
+        }
     }
 }

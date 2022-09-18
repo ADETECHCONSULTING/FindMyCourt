@@ -9,10 +9,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import dagger.hilt.android.AndroidEntryPoint
 import fr.traore.findmycourt.presentation.MapScreen
 import fr.traore.findmycourt.ui.MapsComposeGuideTheme
 
-
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
